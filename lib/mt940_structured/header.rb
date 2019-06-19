@@ -11,6 +11,7 @@ module MT940Structured
     R_ASN = /ASNBNL/
     R_REGIO_BANK = /RBRBNL/
     R_MONEYOU = /MOYONL21/
+    R_MOLLIE = /:25:NL30ABNA0524590958/
 
     def initialize(raw_lines)
       @raw_lines = raw_lines
@@ -35,7 +36,9 @@ module MT940Structured
         MT940Structured::Parsers::VanLanschot::Parser.new
       elsif @raw_lines[0].match(R_SNS) || @raw_lines[0].match(R_ASN) || @raw_lines[0].match(R_REGIO_BANK)
         MT940Structured::Parsers::Sns::Parser.new
-      else
+      elsif @raw_lines[1] && @raw_lines[1].match(R_MOLLIE)
+        MT940Structured::Parsers::Mollie::Parser.new
+      else  
         raise UnsupportedBankError.new
       end
     end

@@ -58,7 +58,7 @@ module MT940Structured::Parsers::Ing
         when REMI_STRD_ISO_R
           result.remi = $1
         else
-          result.remi = description
+          result.remi = description  
       end
       result
     end
